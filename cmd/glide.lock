@@ -1,0 +1,168 @@
+hash: 7f59703a2664265dacfd23f91c82a4c9c691ee5703b36751c37afd55137df51c
+updated: 2019-01-31T12:35:21.522636-05:00
+imports:
+- name: cloud.google.com/go
+  version: b2f67320b4ef8ea4a3b762e54394254d11fa2844
+  subpackages:
+  - compute/metadata
+  - firestore
+  - firestore/apiv1beta1
+  - iam
+  - internal
+  - internal/btree
+  - internal/fields
+  - internal/optional
+  - internal/trace
+  - internal/version
+  - storage
+- name: firebase.google.com/go
+  version: f1dcecc6328cf3857fc970f450cca3965a90b422
+  subpackages:
+  - auth
+  - db
+  - iid
+  - internal
+  - messaging
+  - storage
+- name: github.com/golang/protobuf
+  version: 882cf97a83ad205fd22af574246a3bc647d7a7d2
+  subpackages:
+  - proto
+  - protoc-gen-go/descriptor
+  - ptypes
+  - ptypes/any
+  - ptypes/duration
+  - ptypes/empty
+  - ptypes/struct
+  - ptypes/timestamp
+  - ptypes/wrappers
+- name: github.com/googleapis/gax-go
+  version: ddfab93c3faef4935403ac75a7c11f0e731dc181
+  subpackages:
+  - v2
+- name: github.com/hashicorp/golang-lru
+  version: 20f1fb78b0740ba8c3cb143a61e86ba5c8669768
+  subpackages:
+  - simplelru
+- name: github.com/julienschmidt/httprouter
+  version: 348b672cd90d8190f8240323e372ecd1e66b59dc
+- name: go.opencensus.io
+  version: 3cbb6ce43853260092b2858e37d5b692b57b432b
+  subpackages:
+  - exemplar
+  - internal
+  - internal/tagencoding
+  - plugin/ocgrpc
+  - plugin/ochttp
+  - plugin/ochttp/propagation/b3
+  - stats
+  - stats/internal
+  - stats/view
+  - tag
+  - trace
+  - trace/internal
+  - trace/propagation
+  - trace/tracestate
+- name: golang.org/x/net
+  version: d26f9f9a57f3fab6a695bec0d84433c2c50f8bbf
+  subpackages:
+  - context
+  - context/ctxhttp
+  - http/httpguts
+  - http2
+  - http2/hpack
+  - idna
+  - internal/timeseries
+  - trace
+- name: golang.org/x/oauth2
+  version: 99b60b757ec124ebb7d6b7e97f153b19c10ce163
+  subpackages:
+  - google
+  - internal
+  - jws
+  - jwt
+- name: golang.org/x/sys
+  version: ec83556a53fe16b65c452a104ea9d1e86a671852
+  subpackages:
+  - unix
+- name: golang.org/x/text
+  version: e6919f6577db79269a6443b9dc46d18f2238fb5d
+  subpackages:
+  - secure/bidirule
+  - transform
+  - unicode/bidi
+  - unicode/norm
+- name: google.golang.org/api
+  version: d236112f57134c870530b511f69766d9805df835
+  subpackages:
+  - gensupport
+  - googleapi
+  - googleapi/internal/uritemplates
+  - googleapi/transport
+  - identitytoolkit/v3
+  - internal
+  - iterator
+  - option
+  - storage/v1
+  - transport
+  - transport/grpc
+  - transport/http
+  - transport/http/internal/propagation
+- name: google.golang.org/appengine
+  version: ae0ab99deb4dc413a2b4bd6c8bdd0eb67f1e4d06
+  subpackages:
+  - internal
+  - internal/app_identity
+  - internal/base
+  - internal/datastore
+  - internal/log
+  - internal/modules
+  - internal/remote_api
+  - internal/socket
+  - internal/urlfetch
+  - socket
+  - urlfetch
+- name: google.golang.org/genproto
+  version: 8ac453e89fca495c0d17f98932642f392e2a11f3
+  subpackages:
+  - googleapis/api/annotations
+  - googleapis/firestore/v1beta1
+  - googleapis/iam/v1
+  - googleapis/rpc/code
+  - googleapis/rpc/status
+  - googleapis/type/latlng
+- name: google.golang.org/grpc
+  version: 1925e2441e117612f6e937446c35fd95bf4ac285
+  subpackages:
+  - balancer
+  - balancer/base
+  - balancer/roundrobin
+  - binarylog/grpc_binarylog_v1
+  - codes
+  - connectivity
+  - credentials
+  - credentials/internal
+  - credentials/oauth
+  - encoding
+  - encoding/proto
+  - grpclog
+  - internal
+  - internal/backoff
+  - internal/binarylog
+  - internal/channelz
+  - internal/envconfig
+  - internal/grpcrand
+  - internal/grpcsync
+  - internal/syscall
+  - internal/transport
+  - keepalive
+  - metadata
+  - naming
+  - peer
+  - resolver
+  - resolver/dns
+  - resolver/passthrough
+  - stats
+  - status
+  - tap
+testImports: []
