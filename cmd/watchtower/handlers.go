@@ -40,3 +40,22 @@ func (s *server) WatchesPutHandler(w http.ResponseWriter, req *http.Request, par
 	wr.WriteResponse(watch)
 
 }
+
+func (s *server) WatchesGetHandler(w http.ResponseWriter, req *http.Request, params httprouter.Params) {
+	wr := httpwriter.NewVerboseResponseWriter(w)
+
+	watchId := params.ByName("id")
+	if len(watchId) == 0 {
+		wr.WriteBadRequest(req, "", errors.New("No watch ID"))
+		return
+	}
+
+	// Save watch to firebase store
+	watch, err := s.db.Get(watchId)
+	if err != nil {
+		wr.WriteInternalServerError(req, "Unable to get watch with id: "+watchId, err)
+		return
+	}
+	wr.WriteResponse(watch)
+
+}

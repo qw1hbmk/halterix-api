@@ -15,9 +15,7 @@ func NewFireStoreConnection(credsFile string, ctx context.Context) *firestore.Cl
 	if credsFile == "" {
 		credsFile = "creds/halterixapi-firebase-adminsdk.json"
 	}
-	// cwd, _ := filepath.Abs(filepath.Dir(os.Args[0]))
-	// credsFile = cwd + "/internal/platform/halterixapi-firebase-adminsdk.json"
-	// Set up firestore
+
 	opt := option.WithCredentialsFile(credsFile)
 	app, err := firebase.NewApp(ctx, nil, opt)
 	if err != nil {
