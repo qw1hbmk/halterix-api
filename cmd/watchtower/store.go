@@ -18,7 +18,8 @@ func NewDatabase(store *firestore.Client, ctx context.Context) *database {
 }
 
 func (db *database) Update(w Watch) (Watch, error) {
-	w.ServerTime = time.Now().Unix()
+	// Get Unix time in millis
+	w.ServerTime = time.Now().UnixNano() / 1000000
 	_, err := db.store.Collection("watches").Doc(w.Id).Set(db.ctx, map[string]interface{}{
 		"recordingId": w.RecordingId,
 		"network":     w.Network,
