@@ -4,5 +4,6 @@ type Watch struct {
 	Id          string `json:"id"`
 	RecordingId string `json:"recordingId"`
 	Network     string `json:"network"`
-	Updated     int64  `json:"updated"`
+	ClientTime  int64  `json:"clientTime"`
+	ServerTime  int64  `json:"serverTime"`
 }

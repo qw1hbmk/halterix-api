@@ -18,12 +18,12 @@ func NewDatabase(store *firestore.Client, ctx context.Context) *database {
 }
 
 func (db *database) Update(w Watch) (Watch, error) {
-
-	w.Updated = time.Now().Unix()
+	w.ServerTime = time.Now().Unix()
 	_, err := db.store.Collection("watches").Doc(w.Id).Set(db.ctx, map[string]interface{}{
 		"recordingId": w.RecordingId,
 		"network":     w.Network,
-		"updated":     w.Updated,
+		"clientTime":  w.ClientTime,
+		"serverTime":  w.ServerTime,
 	})
 	if err != nil {
 		log.Fatalf("Failed adding watch: %v", err)
