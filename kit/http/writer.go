@@ -45,7 +45,7 @@ func (w VerboseResponseWriter) WriteUuidGenerationError(req *http.Request, err e
 
 func (w VerboseResponseWriter) writeError(req *http.Request, msg string, statusCode int, err string) {
 
-	em := fmt.Sprintf("%s error (%s) occurred due to request: %v \n. Details: %s.", statusCode, err, req, msg)
+	em := fmt.Sprintf("%d error (%s) occurred due to request: %v \n. Details: %s.", statusCode, err, req, msg)
 
 	//do some logging here
 	w.WriteResponseUsingStatus(map[string]string{"error": em}, statusCode)
