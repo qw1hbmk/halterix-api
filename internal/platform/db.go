@@ -10,7 +10,7 @@ import (
 
 func NewFireStoreConnection(credsFile string, ctx context.Context) *firestore.Client {
 
-	conf := &firebase.Config{ProjectID: "halterixapi"}
+	conf := &firebase.Config{ProjectID: "halterixadmin"}
 	app, err := firebase.NewApp(ctx, conf)
 	if err != nil {
 		log.Fatalln(err)

@@ -2,6 +2,7 @@ package watchtower
 
 import (
 	"context"
+	"errors"
 	"log"
 	"time"
 
@@ -20,7 +21,16 @@ func NewDatabase(store *firestore.Client, ctx context.Context) *database {
 func (db *database) Update(w Watch) (Watch, error) {
 	// Get Unix time in millis
 	w.ServerTime = time.Now().UnixNano() / 1000000
-	_, err := db.store.Collection("watches").Doc(w.Id).Set(db.ctx, map[string]interface{}{
+
+	// Check if document exists before trying to update
+	// TO DO: In future, api may allow this to be simplified to one call
+
+	_, err := db.store.Collection("watches").Doc(w.Id).Get(db.ctx)
+	if err != nil {
+		return w, errors.New("Watch does not exist in databse.")
+	}
+
+	_, err = db.store.Collection("watches").Doc(w.Id).Set(db.ctx, map[string]interface{}{
 		"recordingId": w.RecordingId,
 		"network":     w.Network,
 		"clientTime":  w.ClientTime,
