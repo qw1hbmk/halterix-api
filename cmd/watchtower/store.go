@@ -22,8 +22,8 @@ func (db *database) Update(w Watch) (Watch, error) {
 	// Get Unix time in millis
 	w.ServerTime = time.Now().UnixNano() / 1000000
 
-	// Check if document exists before trying to update
-	// TO DO: In future, api may allow this to be simplified to one call
+	// Check if document exists before trying to update.
+	// TO DO: Fail and alert/alarm that we are trying to create a new watch.
 
 	_, err := db.store.Collection("watches").Doc(w.Id).Get(db.ctx)
 	if err != nil {
@@ -35,6 +35,8 @@ func (db *database) Update(w Watch) (Watch, error) {
 		"network":     w.Network,
 		"clientTime":  w.ClientTime,
 		"serverTime":  w.ServerTime,
+		"patientId":   w.PatientId,
+		"active":      w.Active,
 	})
 	if err != nil {
 		log.Fatalf("Failed adding watch: %v", err)
