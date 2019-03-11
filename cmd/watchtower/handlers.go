@@ -10,7 +10,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func (s *server) WatchesPutHandler(w http.ResponseWriter, req *http.Request, params httprouter.Params) {
+func (s *server) WatchesPatchHandler(w http.ResponseWriter, req *http.Request, params httprouter.Params) {
 	wr := httpwriter.NewVerboseResponseWriter(w)
 
 	watchId := params.ByName("id")
@@ -26,13 +26,17 @@ func (s *server) WatchesPutHandler(w http.ResponseWriter, req *http.Request, par
 		return
 	}
 
-	if watchId != watch.Id {
-		wr.WriteBadRequest(req, "", errors.New("Incorrect watch ID"))
-		return
+	if watch.Id != "" {
+		if watchId != watch.Id {
+			wr.WriteBadRequest(req, "", errors.New("Incorrect watch ID"))
+			return
+		}
+	} else {
+		watch.Id = watchId
 	}
 
 	// Save watch to firebase store
-	watch, err := s.db.Update(watch)
+	watch, err := s.db.Patch(watch)
 	if err != nil {
 		wr.WriteInternalServerError(req, "Unable to update watch with id: "+watchId, err)
 		return
