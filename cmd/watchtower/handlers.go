@@ -26,6 +26,7 @@ func (s *server) WatchesPatchHandler(w http.ResponseWriter, req *http.Request, p
 		return
 	}
 
+	// watchId is an optional body parameter
 	if watch.Id != "" {
 		if watchId != watch.Id {
 			wr.WriteBadRequest(req, "", errors.New("Incorrect watch ID"))
@@ -35,7 +36,9 @@ func (s *server) WatchesPatchHandler(w http.ResponseWriter, req *http.Request, p
 		watch.Id = watchId
 	}
 
-	// Save watch to firebase store
+	// Update watch in firebase store
+	// Patch method is only available on recordingId and network fields
+	// No update will take place is watch is inactive
 	watch, err := s.db.Patch(watch)
 	if err != nil {
 		wr.WriteInternalServerError(req, "Unable to update watch with id: "+watchId, err)

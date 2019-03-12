@@ -20,17 +20,17 @@ func NewDatabase(store *firestore.Client, ctx context.Context) *database {
 
 func (db *database) Patch(w Watch) (Watch, error) {
 
-	// Check if document exists before trying to update.
-	// Todo: Fail and alert/alarm that we are trying to create a new watch.
+	// Check if document exists before trying to update it.
+	// Todo: Fail and alert/alarm that we attempt to create a new watch.
 	dsnap, err := db.store.Collection("watches").Doc(w.Id).Get(db.ctx)
 	if err != nil {
-		return w, errors.New("Watch does not exist in databse.")
+		return w, errors.New("Watch does not exist in database.")
 	}
 
 	var fw Watch
 	dsnap.DataTo(&fw)
 	if fw.Active == false {
-		return w, errors.New("Cannot update inactive watch.")
+		return fw, nil
 	}
 	// Get Unix time in millis
 	fw.LastPingTime = time.Now().UnixNano() / 1000000
