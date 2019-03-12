@@ -15,14 +15,27 @@ import (
 
 func main() {
 
-	router := httprouter.New()
+	var1 := os.Getenv("MY_VAR")
+	fmt.Println(var1)
 
+	// Todo: This should be set in a bash script and passed as
+	// an env variable
+	var fireStoreId string
+	cloudId := os.Getenv("GOOGLE_CLOUD_PROJECT")
+	if cloudId == "halterix-api-prod" {
+		fireStoreId = "halterix-prod"
+	} else if cloudId == "halterix-api-rnd" {
+		fireStoreId = "spars-9-axis"
+	} else {
+		// All remaining projects should go to the dev database
+		fireStoreId = "halterix-dev"
+	}
+
+	router := httprouter.New()
 	router.GET("/", homeHandler)
 
 	ctx := context.Background()
-
-	// TO DO: Pass in config file from firetore to increase security
-	firestore := platform.NewFireStoreConnection("", ctx)
+	firestore := platform.NewFireStoreConnection(fireStoreId, ctx)
 
 	// Set up watchtower endpoints
 	wdb := watchtower.NewDatabase(firestore, ctx)

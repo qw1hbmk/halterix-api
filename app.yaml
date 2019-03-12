@@ -4,3 +4,6 @@ handlers:
 - url: /watches/.*
   script: auto
   secure: always
+
+env_variables:
+  MY_VAR: "my-var"

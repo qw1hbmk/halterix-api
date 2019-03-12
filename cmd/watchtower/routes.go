@@ -14,6 +14,6 @@ func NewServer(r *httprouter.Router, s *database) *server {
 }
 
 func (s *server) RegisterRoutes() {
-	s.router.PUT("/watches/:id", s.WatchesPutHandler)
+	s.router.PATCH("/watches/:id", s.WatchesPatchHandler)
 	s.router.GET("/watches/:id", s.WatchesGetHandler)
 }
