@@ -5,5 +5,9 @@ handlers:
   script: auto
   secure: always
 
+- url: /patients/.*
+  script: auto
+  secure: always
+
 env_variables:
   MY_VAR: "my-var"

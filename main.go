@@ -26,9 +26,11 @@ func main() {
 		fireStoreId = "halterix-prod"
 	} else if cloudId == "halterix-api-rnd" {
 		fireStoreId = "spars-9-axis"
-	} else {
-		// All remaining projects should go to the dev database
+	} else if cloudId == "halterix-api-dev" {
 		fireStoreId = "halterix-dev"
+	} else {
+		// Localhost
+		fireStoreId = "halterixadmin"
 	}
 
 	router := httprouter.New()
