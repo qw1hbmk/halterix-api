@@ -17,7 +17,7 @@ func NewDatabase(store *firestore.Client, ctx context.Context) *database {
 
 func (db *database) GetAuthDetails(apiKey string) (*AccountAuth, error) {
 
-	dsnap, err := db.store.Collection("auth").Doc(apiKey).Get(db.ctx)
+	dsnap, err := db.store.Collection("authorized-keys").Doc(apiKey).Get(db.ctx)
 	if err != nil {
 		return &AccountAuth{}, err
 	}
