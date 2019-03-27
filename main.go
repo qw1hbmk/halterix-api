@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/qw1hbmk/halterix-api/cmd/authenticator"
 	"github.com/qw1hbmk/halterix-api/cmd/watchtower"
 	"github.com/qw1hbmk/halterix-api/internal/platform"
 
@@ -33,11 +34,16 @@ func main() {
 		fireStoreId = "halterixadmin"
 	}
 
+	// Set up firestore
+	ctx := context.Background()
+	firestore := platform.NewFireStoreConnection(fireStoreId, ctx)
+
 	router := httprouter.New()
 	router.GET("/", homeHandler)
 
-	ctx := context.Background()
-	firestore := platform.NewFireStoreConnection(fireStoreId, ctx)
+	// Apply auth middleware
+	adb := authenticator.NewDatabase(firestore, ctx)
+	authedRouter := authenticator.APIKeyMiddleware(router, adb)
 
 	// Set up watchtower endpoints
 	wdb := watchtower.NewDatabase(firestore, ctx)
@@ -50,7 +56,7 @@ func main() {
 		log.Printf("Defaulting to port %s", port)
 	}
 	log.Printf("Listening on port %s", port)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), router))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), authedRouter))
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
