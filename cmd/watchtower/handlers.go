@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	httpwriter "github.com/qw1hbmk/halterix-api/kit/http"
+	"github.com/qw1hbmk/halterix-api/kit/util"
 
 	"github.com/julienschmidt/httprouter"
 )
@@ -65,4 +66,33 @@ func (s *server) WatchesGetHandler(w http.ResponseWriter, req *http.Request, par
 	}
 	wr.WriteResponse(watch)
 
+}
+
+func (s *server) WearLogPostHandler(w http.ResponseWriter, req *http.Request, params httprouter.Params) {
+	wr := httpwriter.NewVerboseResponseWriter(w)
+	decoder := json.NewDecoder(req.Body)
+	var wl WearLog
+	if err := decoder.Decode(&wl); err != nil {
+		wr.WriteDecodeError(req, err)
+		return
+	}
+
+	uuid, err := util.Uuid()
+	if err != nil {
+		wr.WriteInternalServerError(req, "Could not generate UUID", err)
+		return
+	}
+
+	wl.Id = uuid
+
+	// Update patient in firebase store
+	// Patch method is only available on recordingId and network fields
+	// No update will take place is watch is inactive
+	wl, err = s.db.PostWearLog(wl)
+	if err != nil {
+		wr.WriteInternalServerError(req, "Unable to update wearlog with id: "+wl.Id, err)
+		return
+	}
+	// Return wearlog
+	wr.WriteResponse(wl)
 }

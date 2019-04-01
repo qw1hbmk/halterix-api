@@ -45,7 +45,7 @@ func (db *database) PatchPatient(p Patient) (Patient, error) {
 		{Path: "lastPingTime", Value: fp.LastPingTime},
 	})
 	if err != nil {
-		log.Fatalf("Failed updating watch: %v", err)
+		log.Printf("Failed updating watch: %v", err)
 		return Patient{}, err
 	}
 
@@ -66,4 +66,25 @@ func (db *database) GetWatch(watchId string) (Watch, error) {
 	}
 	w.Id = watchId
 	return w, nil
+}
+
+func (db *database) PostWearLog(wl WearLog) (WearLog, error) {
+
+	// Get Unix time in millis
+	wl.ServerTime = time.Now()
+
+	_, err := db.store.Collection("wear-logs").Doc(wl.Id).Create(db.ctx, WearLog{
+		WatchId:    wl.WatchId,
+		PatientId:  wl.PatientId,
+		Message:    wl.Message,
+		Code:       wl.Code,
+		ServerTime: wl.ServerTime,
+	})
+	if err != nil {
+		log.Printf("Failed creating wearlog: %v", err)
+		return WearLog{}, err
+	}
+
+	// Return updated object
+	return wl, nil
 }

@@ -15,7 +15,7 @@ func APIKeyMiddleware(h http.Handler, db *database) http.Handler {
 		// Only expecting two fields in the header
 		auth := strings.SplitN(r.Header.Get("Authorization"), " ", 2)
 
-		if len(auth) != 2 || auth[0] != "APIKey" {
+		if len(auth) != 2 || auth[0] != "API-Key" {
 			http.Error(w, "No Authorization", http.StatusUnauthorized)
 			return
 

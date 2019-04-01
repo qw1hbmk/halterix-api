@@ -1,12 +1,12 @@
 hash: 7f59703a2664265dacfd23f91c82a4c9c691ee5703b36751c37afd55137df51c
-updated: 2019-02-01T12:20:56.571297-05:00
+updated: 2019-04-01T08:39:34.325387-04:00
 imports:
 - name: cloud.google.com/go
-  version: b2f67320b4ef8ea4a3b762e54394254d11fa2844
+  version: 408b387e95d4ba708acd3e2361d56b4aaa3b4cf8
   subpackages:
   - compute/metadata
   - firestore
-  - firestore/apiv1beta1
+  - firestore/apiv1
   - iam
   - internal
   - internal/btree
@@ -16,7 +16,7 @@ imports:
   - internal/version
   - storage
 - name: firebase.google.com/go
-  version: f1dcecc6328cf3857fc970f450cca3965a90b422
+  version: c9b5e064033ed12864bf07d9bb34249087617130
   subpackages:
   - auth
   - db
@@ -37,24 +37,28 @@ imports:
   - ptypes/timestamp
   - ptypes/wrappers
 - name: github.com/googleapis/gax-go
-  version: ddfab93c3faef4935403ac75a7c11f0e731dc181
+  version: beaecbbdd8af86aa3acf14180d53828ce69400b2
   subpackages:
   - v2
 - name: github.com/hashicorp/golang-lru
-  version: 20f1fb78b0740ba8c3cb143a61e86ba5c8669768
+  version: 7087cb70de9f7a8bc0a10c375cb0d2280a8edf9c
   subpackages:
   - simplelru
 - name: github.com/julienschmidt/httprouter
   version: 348b672cd90d8190f8240323e372ecd1e66b59dc
+- name: github.com/nu7hatch/gouuid
+  version: 179d4d0c4d8d407a32af483c2354df1d2c91e6c3
 - name: go.opencensus.io
-  version: 3cbb6ce43853260092b2858e37d5b692b57b432b
+  version: 41e54b832491efe97a2aafe696f6e7d812f136bb
   subpackages:
-  - exemplar
   - internal
   - internal/tagencoding
+  - metric/metricdata
+  - metric/metricproducer
   - plugin/ocgrpc
   - plugin/ochttp
   - plugin/ochttp/propagation/b3
+  - resource
   - stats
   - stats/internal
   - stats/view
@@ -64,7 +68,7 @@ imports:
   - trace/propagation
   - trace/tracestate
 - name: golang.org/x/net
-  version: d26f9f9a57f3fab6a695bec0d84433c2c50f8bbf
+  version: 74de082e2cca95839e88aa0aeee5aadf6ce7710f
   subpackages:
   - context
   - context/ctxhttp
@@ -75,7 +79,7 @@ imports:
   - internal/timeseries
   - trace
 - name: golang.org/x/oauth2
-  version: 99b60b757ec124ebb7d6b7e97f153b19c10ce163
+  version: c85d3e98c914e3a33234ad863dcbff5dbc425bb8
   subpackages:
   - google
   - internal
@@ -86,14 +90,14 @@ imports:
   subpackages:
   - unix
 - name: golang.org/x/text
-  version: e6919f6577db79269a6443b9dc46d18f2238fb5d
+  version: e3703dcdd614d2d7488fff034c75c551ea25da95
   subpackages:
   - secure/bidirule
   - transform
   - unicode/bidi
   - unicode/norm
 - name: google.golang.org/api
-  version: b7b8eee3e7a942b68d7513082b6793866a911b63
+  version: c30064f755a065acb7c5446e8b69067240dcdd39
   subpackages:
   - gensupport
   - googleapi
@@ -109,7 +113,7 @@ imports:
   - transport/http
   - transport/http/internal/propagation
 - name: google.golang.org/appengine
-  version: ae0ab99deb4dc413a2b4bd6c8bdd0eb67f1e4d06
+  version: e9657d882bb81064595ca3b56cbe2546bbabf7b1
   subpackages:
   - internal
   - internal/app_identity
@@ -123,16 +127,16 @@ imports:
   - socket
   - urlfetch
 - name: google.golang.org/genproto
-  version: 8ac453e89fca495c0d17f98932642f392e2a11f3
+  version: d831d65fe17df2e52bcc4316d4a9f7a418701f43
   subpackages:
   - googleapis/api/annotations
-  - googleapis/firestore/v1beta1
+  - googleapis/firestore/v1
   - googleapis/iam/v1
   - googleapis/rpc/code
   - googleapis/rpc/status
   - googleapis/type/latlng
 - name: google.golang.org/grpc
-  version: 1925e2441e117612f6e937446c35fd95bf4ac285
+  version: f1437f7cc5fa7525032e27aa5fdc15e288220c4e
   subpackages:
   - balancer
   - balancer/base
