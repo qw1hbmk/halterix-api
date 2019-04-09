@@ -23,11 +23,11 @@ func main() {
 	// an env variable
 	var fireStoreId string
 	cloudId := os.Getenv("GOOGLE_CLOUD_PROJECT")
-	if cloudId == "halterix-api-prod" {
+	if cloudId == "halterix-api-prod" || cloudId == "halterix-prod" {
 		fireStoreId = "halterix-prod"
-	} else if cloudId == "halterix-api-rnd" {
+	} else if cloudId == "halterix-api-rnd" || cloudId == "halterix-rnd" {
 		fireStoreId = "spars-9-axis"
-	} else if cloudId == "halterix-api-dev" {
+	} else if cloudId == "halterix-api-dev" || cloudId == "halterix-dev" {
 		fireStoreId = "halterix-dev"
 	} else {
 		// Localhost
@@ -60,5 +60,5 @@ func main() {
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	w.Write([]byte("Welcome"))
+	w.Write([]byte("Welcome to " + os.Getenv("GOOGLE_CLOUD_PROJECT")))
 }
