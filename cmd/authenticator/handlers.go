@@ -1,8 +1,11 @@
 package authenticator
 
 import (
+	"errors"
 	"net/http"
 	"strings"
+
+	"github.com/qw1hbmk/halterix-api/kit"
 )
 
 // AuthMiddleware is the auth middleware layer.
@@ -16,11 +19,15 @@ func APIKeyMiddleware(h http.Handler, db *database) http.Handler {
 		auth := strings.SplitN(r.Header.Get("Authorization"), " ", 2)
 
 		if len(auth) != 2 || auth[0] != "API-Key" {
-			http.Error(w, "No Authorization", http.StatusUnauthorized)
+			msg := "No Authorization"
+			kit.LogUnauthorizedError(r, errors.New(msg))
+			http.Error(w, msg, http.StatusUnauthorized)
 			return
 
 		} else if Validate(auth[1], db) == false {
-			http.Error(w, "Authorization failed", http.StatusUnauthorized)
+			msg := "Authorization failed"
+			kit.LogUnauthorizedError(r, errors.New(msg))
+			http.Error(w, msg, http.StatusUnauthorized)
 			return
 		}
 		h.ServeHTTP(w, r)

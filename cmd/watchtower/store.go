@@ -2,7 +2,6 @@ package watchtower
 
 import (
 	"context"
-	"log"
 	"time"
 
 	"cloud.google.com/go/firestore"
@@ -45,7 +44,6 @@ func (db *database) PatchPatient(p Patient) (Patient, error) {
 		{Path: "lastPingTime", Value: fp.LastPingTime},
 	})
 	if err != nil {
-		log.Printf("Failed updating watch: %v", err)
 		return Patient{}, err
 	}
 
@@ -81,7 +79,6 @@ func (db *database) PostWearLog(wl WearLog) (WearLog, error) {
 		ServerTime: wl.ServerTime,
 	})
 	if err != nil {
-		log.Printf("Failed creating wearlog: %v", err)
 		return WearLog{}, err
 	}
 

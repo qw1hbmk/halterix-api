@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 
@@ -12,12 +11,20 @@ import (
 	"github.com/qw1hbmk/halterix-api/internal/platform"
 
 	"github.com/julienschmidt/httprouter"
+
+	"github.com/sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 )
 
 func main() {
 
-	var1 := os.Getenv("MY_VAR")
-	fmt.Println(var1)
+	// var1 := os.Getenv("MY_VAR")
+	// fmt.Println(var1)
+
+	Formatter := new(log.TextFormatter)
+	Formatter.TimestampFormat = "02-01-2006 15:04:05"
+	Formatter.FullTimestamp = true
+	log.SetFormatter(Formatter)
 
 	// Todo: This should be set in a bash script and passed as
 	// an env variable
@@ -30,8 +37,13 @@ func main() {
 	} else if cloudId == "halterix-api-dev" || cloudId == "halterix-dev" {
 		fireStoreId = "halterix-dev"
 	} else {
-		// Localhost
-		fireStoreId = "halterixadmin"
+		// Localhost: still set firestore to dev, but set logging locally
+		fireStoreId = "halterix-dev"
+
+		// Set Logger
+		// var filename string = "logfile.log"
+		// f, err := os.OpenFile(filename, os.O_WRONLY | os.O_APPEND | os.O_CREATE, 0644)
+		// log.SetOutput(fi)
 	}
 
 	// Set up firestore
@@ -48,6 +60,7 @@ func main() {
 	// Set up watchtower endpoints
 	wdb := watchtower.NewDatabase(firestore, ctx)
 	ws := watchtower.NewServer(router, wdb)
+
 	ws.RegisterRoutes()
 
 	port := os.Getenv("PORT")
@@ -55,7 +68,7 @@ func main() {
 		port = "8080"
 		log.Printf("Defaulting to port %s", port)
 	}
-	log.Printf("Listening on port %s", port)
+	logrus.Printf("Listening on port %s", port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), authedRouter))
 }
 

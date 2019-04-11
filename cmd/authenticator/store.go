@@ -3,6 +3,8 @@ package authenticator
 import (
 	"context"
 
+	"github.com/qw1hbmk/halterix-api/kit"
+
 	"cloud.google.com/go/firestore"
 )
 
@@ -27,5 +29,6 @@ func (db *database) GetAuthDetails(apiKey string) (*AccountAuth, error) {
 		return &AccountAuth{}, err
 	}
 	a.APIKey = apiKey
+	kit.LogInfo(a)
 	return &a, nil
 }

@@ -5,6 +5,7 @@ import (
 	"errors"
 	"net/http"
 
+	"github.com/qw1hbmk/halterix-api/kit"
 	httpwriter "github.com/qw1hbmk/halterix-api/kit/http"
 	"github.com/qw1hbmk/halterix-api/kit/util"
 
@@ -14,8 +15,11 @@ import (
 func (s *server) PatientsPatchHandler(w http.ResponseWriter, req *http.Request, params httprouter.Params) {
 	wr := httpwriter.NewVerboseResponseWriter(w)
 
+	// Should not be possible, but add check anyway
 	patientId := params.ByName("id")
 	if len(patientId) == 0 {
+		err := errors.New("No patient ID")
+		kit.LogBadRequestError(req, err)
 		wr.WriteBadRequest(req, "", errors.New("No patient ID"))
 		return
 	}
@@ -23,6 +27,7 @@ func (s *server) PatientsPatchHandler(w http.ResponseWriter, req *http.Request, 
 	decoder := json.NewDecoder(req.Body)
 	var p Patient
 	if err := decoder.Decode(&p); err != nil {
+		kit.LogBadRequestError(req, err)
 		wr.WriteDecodeError(req, err)
 		return
 	}
@@ -30,7 +35,9 @@ func (s *server) PatientsPatchHandler(w http.ResponseWriter, req *http.Request, 
 	// patientId is an optional body parameter
 	if p.Id != "" {
 		if patientId != p.Id {
-			wr.WriteBadRequest(req, "", errors.New("Incorrect patient ID"))
+			err := errors.New("Incorrect patient ID")
+			kit.LogBadRequestError(req, err)
+			wr.WriteBadRequest(req, "", err)
 			return
 		}
 	} else {
@@ -42,7 +49,9 @@ func (s *server) PatientsPatchHandler(w http.ResponseWriter, req *http.Request, 
 	// No update will take place is watch is inactive
 	p, err := s.db.PatchPatient(p)
 	if err != nil {
-		wr.WriteInternalServerError(req, "Unable to update patient with id: "+p.Id, err)
+		msg := "Unable to update patient with id: " + p.Id
+		kit.LogInternalServerError(req, msg, err)
+		wr.WriteInternalServerError(req, msg, err)
 		return
 	}
 	// We want to keep the patient information confidential, so return original request
@@ -54,14 +63,18 @@ func (s *server) WatchesGetHandler(w http.ResponseWriter, req *http.Request, par
 
 	watchId := params.ByName("id")
 	if len(watchId) == 0 {
-		wr.WriteBadRequest(req, "", errors.New("No watch ID"))
+		err := errors.New("No watch ID")
+		kit.LogBadRequestError(req, err)
+		wr.WriteBadRequest(req, "", err)
 		return
 	}
 
 	// Save watch to firebase store
 	watch, err := s.db.GetWatch(watchId)
 	if err != nil {
-		wr.WriteInternalServerError(req, "Unable to get watch with id: "+watchId, err)
+		msg := "Unable to get watch with id: " + watchId
+		kit.LogInternalServerError(req, msg, err)
+		wr.WriteInternalServerError(req, msg, err)
 		return
 	}
 	wr.WriteResponse(watch)
@@ -73,13 +86,16 @@ func (s *server) WearLogPostHandler(w http.ResponseWriter, req *http.Request, pa
 	decoder := json.NewDecoder(req.Body)
 	var wl WearLog
 	if err := decoder.Decode(&wl); err != nil {
+		kit.LogBadRequestError(req, err)
 		wr.WriteDecodeError(req, err)
 		return
 	}
 
 	uuid, err := util.Uuid()
 	if err != nil {
-		wr.WriteInternalServerError(req, "Could not generate UUID", err)
+		msg := "Could not generate UUID"
+		kit.LogInternalServerError(req, msg, err)
+		wr.WriteInternalServerError(req, msg, err)
 		return
 	}
 
@@ -90,7 +106,9 @@ func (s *server) WearLogPostHandler(w http.ResponseWriter, req *http.Request, pa
 	// No update will take place is watch is inactive
 	wl, err = s.db.PostWearLog(wl)
 	if err != nil {
-		wr.WriteInternalServerError(req, "Unable to update wearlog with id: "+wl.Id, err)
+		msg := "Unable to update wearlog with id: " + wl.Id
+		kit.LogInternalServerError(req, msg, err)
+		wr.WriteInternalServerError(req, msg, err)
 		return
 	}
 	// Return wearlog
