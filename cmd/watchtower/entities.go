@@ -12,9 +12,10 @@ type Patient struct {
 }
 
 type Watch struct {
-	Id        string `json:"id" firestore:":id,omitempty"`
-	PatientId string `json:"patientId" firestore:"patientId"`
-	Active    bool   `json:"active" firestore:"active"`
+	Id             string `json:"id" firestore:":id,omitempty"`
+	PatientId      string `json:"patientId" firestore:"patientId"`
+	OrganizationId string `json:"organizationId" firestore:"organizationId"`
+	Active         bool   `json:"active" firestore:"active"`
 }
 
 type WearLog struct {

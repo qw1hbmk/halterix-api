@@ -30,9 +30,9 @@ func main() {
 	// an env variable
 	var fireStoreId string
 	cloudId := os.Getenv("GOOGLE_CLOUD_PROJECT")
-	if cloudId == "halterix-api-prod" || cloudId == "halterix-prod" {
-		fireStoreId = "halterix-prod"
-	} else if cloudId == "halterix-api-rnd" || cloudId == "halterix-rnd" {
+	if cloudId == "halterix-api-prod" || cloudId == "halterix-prod-83363" {
+		fireStoreId = "halterix-prod-83363"
+	} else if cloudId == "halterix-api-rnd" || cloudId == "spars-9-axis" {
 		fireStoreId = "spars-9-axis"
 	} else if cloudId == "halterix-api-dev" || cloudId == "halterix-dev" {
 		fireStoreId = "halterix-dev"

@@ -20,7 +20,9 @@ func Validate(apiKey string, db *database) bool {
 	aa, err := db.GetAuthDetails(apiKey)
 	if aa.Expiry == nil {
 		if aa.Role != "admin" {
-			kit.LogError(errors.New("Auth failed due to malicious attempted access by role " + aa.Role))
+			kit.LogInfo(aa.Role)
+			kit.LogInfo(aa.Role == "admin")
+			kit.LogError(errors.New("Auth failed due to malicious access attempt by role " + aa.Role))
 			return false
 		}
 	} else {
