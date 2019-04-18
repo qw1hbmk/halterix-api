@@ -33,9 +33,9 @@ If you have a permissions error accessing the database, download the services js
 
 ### Deployment
 
-To deploy new versions of the application, run: 
+To deploy new versions of the application, run deploy script, followed by environment. E.g.,  
 
-``gcloud app deploy --project <project-id>``
+``./deploy dev``
 
 The three environments we can deploy to are: halterix-dev, halterix-rnd, and halerix-prod.
 
