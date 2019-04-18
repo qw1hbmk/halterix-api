@@ -54,8 +54,29 @@ func (s *server) PatientsPatchHandler(w http.ResponseWriter, req *http.Request, 
 		wr.WriteInternalServerError(req, msg, err)
 		return
 	}
-	// We want to keep the patient information confidential, so return original request
-	wr.WriteResponse(req.Body)
+	wr.WriteResponse(p)
+}
+
+func (s *server) PatientsGetHandler(w http.ResponseWriter, req *http.Request, params httprouter.Params) {
+	wr := httpwriter.NewVerboseResponseWriter(w)
+
+	patientId := params.ByName("id")
+	if len(patientId) == 0 {
+		err := errors.New("No patient ID")
+		kit.LogBadRequestError(req, err)
+		wr.WriteBadRequest(req, "", err)
+		return
+	}
+
+	// Get watch from firebase store
+	patient, err := s.db.GetPatient(patientId)
+	if err != nil {
+		msg := "Unable to get patient with id: " + patientId
+		kit.LogInternalServerError(req, msg, err)
+		wr.WriteInternalServerError(req, msg, err)
+		return
+	}
+	wr.WriteResponse(patient)
 }
 
 func (s *server) WatchesGetHandler(w http.ResponseWriter, req *http.Request, params httprouter.Params) {
@@ -69,7 +90,7 @@ func (s *server) WatchesGetHandler(w http.ResponseWriter, req *http.Request, par
 		return
 	}
 
-	// Save watch to firebase store
+	// Get watch from firebase store
 	watch, err := s.db.GetWatch(watchId)
 	if err != nil {
 		msg := "Unable to get watch with id: " + watchId

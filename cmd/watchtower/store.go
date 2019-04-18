@@ -34,7 +34,7 @@ func (db *database) PatchPatient(p Patient) (Patient, error) {
 	if p.RecordingId != nil {
 		fp.RecordingId = p.RecordingId
 	}
-	if p.Network != nil {
+	if p.Network != "" {
 		fp.Network = p.Network
 	}
 
@@ -47,7 +47,23 @@ func (db *database) PatchPatient(p Patient) (Patient, error) {
 		return Patient{}, err
 	}
 
-	// Return original object
+	// Return firebase object
+	fp.Id = p.Id
+	return fp, nil
+}
+
+func (db *database) GetPatient(patientId string) (Patient, error) {
+
+	dsnap, err := db.store.Collection("patients").Doc(patientId).Get(db.ctx)
+	if err != nil {
+		return Patient{}, err
+	}
+	var p Patient
+	err = dsnap.DataTo(&p)
+	if err != nil {
+		return Patient{}, err
+	}
+	p.Id = patientId
 	return p, nil
 }
 

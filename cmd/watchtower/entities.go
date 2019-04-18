@@ -4,9 +4,11 @@ import "time"
 
 type Patient struct {
 	Id           string  `json:"id" firestore:"id,omitempty"`
+	FirstName    string  `json:"firstName" firestore:"firstName"`
+	LastName     string  `json:"lastName" firestore:"lastName"`
 	Active       bool    `json:"active" firestore:"active"`
 	RecordingId  *string `json:"recordingId" firestore:"recordingId"`
-	Network      *string `json:"network" firestore:"network"`
+	Network      string  `json:"network" firestore:"network"`
 	LastPingTime int64   `json:"lastPingTime" firestore:"lastPingTime"`
 	WatchId      string  `json:"watchId" firestore:"watchId"`
 }
